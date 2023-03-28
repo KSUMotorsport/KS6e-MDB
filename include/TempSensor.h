@@ -40,7 +40,11 @@ typedef struct temperature
 
     uint8_t temp[CHANNELS] = { 0 };
 
-    uint8_t avgTemp[CHANNELS] = { 0 };
+    uint8_t avgTemp = 0;
+
+    uint8_t minTemp[CHANNELS] = { 0 };
+
+    uint8_t maxTemp[CHANNELS] = { 0 };
 
 } temperature;
 
@@ -68,9 +72,12 @@ public:
 
     void AvgTemp();
 
-    uint8_t *getAvgTemp();
+    uint8_t getAvgTemp();
 
 };
+
+
+extern TempSensor batterTemp;
 
 
 #endif

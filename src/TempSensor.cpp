@@ -7,16 +7,9 @@
 
 // ------------------------------------------------
 // Input pins for the NANO
-
-//                 A   B   C   D
-// int tempPins[] = {18, 19, 20, 21};
-
-
-// ---------------------------------------------------
-// Input pins for the uno
-
-int tempPins[] = {PC0, PC1, PC2, PC3};
-
+ 
+//                  A    B    C    D
+ int tempPins[] = {PF7, PF6, PF5, PF4};
 
 
 // ----------------------------------------------------
@@ -52,31 +45,12 @@ uint8_t TempSensor::getTemp(int channel)
 void TempSensor::AvgTemp()
 {
 
-    uint8_t minTemp[CHANNELS] = { 0 };
-    uint8_t maxTemp[CHANNELS] = { 0 };
+   for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
+   {
 
-    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
+        this->tempSensor.temp[CHANNEL] += this->tempSensor.avgTemp;
 
-        minTemp[CHANNEL] = this->getTemp(CHANNEL); 
-
-    }
-
-    this->updateTemp();
-
-    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
-
-        maxTemp[CHANNEL] = this->getTemp(CHANNEL);
-
-    }
-
-    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
-
-        this->tempSensor.avgTemp[CHANNEL] = (minTemp[CHANNEL] + maxTemp[CHANNEL]) / 2;
-
-    }
+   }
 
 }
 
@@ -84,7 +58,7 @@ void TempSensor::AvgTemp()
 // ------------------------------------------------------
 // Returns an array of average temperatures
 
-uint8_t *TempSensor::getAvgTemp()
+uint8_t TempSensor::getAvgTemp()
 {
 
     return this->tempSensor.avgTemp;
