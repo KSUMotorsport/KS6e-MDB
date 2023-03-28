@@ -52,31 +52,16 @@ uint8_t TempSensor::getTemp(int channel)
 void TempSensor::AvgTemp()
 {
 
-    uint8_t minTemp[CHANNELS] = { 0 };
-    uint8_t maxTemp[CHANNELS] = { 0 };
+    uint8_t averageTemperature = 0;
 
-    for (uint8_t CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
+   for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
+   {
 
-        minTemp[CHANNEL] = this->getTemp(CHANNEL); 
+        this->tempSensor.temp[CHANNEL] += averageTemperature;
 
-    }
+   }
 
-    this->updateTemp();
-
-    for (uint8_t CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
-
-        maxTemp[CHANNEL] = this->getTemp(CHANNEL);
-
-    }
-
-    for (uint8_t CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-    {
-
-        this->tempSensor.avgTemp[CHANNEL] = (minTemp[CHANNEL] + maxTemp[CHANNEL]) / 2;
-
-    }
+   this->tempSensor.avgTemp = this->tempSensor.avgTemp / CHANNELS;
 
 }
 
@@ -84,7 +69,7 @@ void TempSensor::AvgTemp()
 // ------------------------------------------------------
 // Returns an array of average temperatures
 
-uint8_t *TempSensor::getAvgTemp()
+uint8_t TempSensor::getAvgTemp()
 {
 
     return this->tempSensor.avgTemp;
