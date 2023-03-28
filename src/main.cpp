@@ -38,7 +38,7 @@
 #include "SPI_handle.h"
 #include "MDB_Labels.h"
 
-
+// PLEaAWSDa
 
 int main(void)
 {
@@ -52,7 +52,7 @@ int main(void)
 
         batteryTemp.updateTemp();
         batteryTemp.AvgTemp();
-        
+
     }
 
 }
