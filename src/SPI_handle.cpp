@@ -25,61 +25,29 @@ void init_SPI()
 void send_SPI(uint32_t id, uint8_t buf[])
 {
 
-    SPI_message_t msg;
+    CAN_Frame msg;
 
-    uint64_t buffer;
+    msg.id = id;
 
-    msg.id |= id;
+    msg.extended = false;
 
+    msg.length = 8;
 
 
     // Load buffer with Temperature array 
 
-    for (uint8_t INDEX = 0; INDEX < sizeof(buf); INDEX++)
+    for (uint8_t INDEX = 0; INDEX < CHANNELS; INDEX++)
     {
 
-        msg.buf[INDEX] = buf[INDEX];
+        msg.data[INDEX] = buf[INDEX];
 
     }
 
-    for (int INDEX = msg.len; INDEX > 0; INDEX--)
-    {
-
-        buffer |= (msg.buf[INDEX] << ((INDEX * 8) - 8));
-
-    }
+    msg.data[4] = batteryTemp.getAvgTemp();
+    msg.data[5] = batteryTemp.getMinTemp();
+    msg.data[6] = batteryTemp.getMaxTemp();
 
 
-
-    // SPI.beginTransaction(SPISettings(9600, LSBFIRST, SPI_MODE0));
-
-    // enable CAN controller to recieve data
-
-    digitalWrite(CHIPSELECT, LOW);
-
-    // transfer data
-
-
-    // for (int i = 0; i < msg.len; i++)
-    // {
-
-    //     Serial.print("buffer ");
-    //     Serial.print(i);
-    //     Serial.print(": ");
-    //     Serial.println(msg.buf[i]);
-
-    // }
-
-    // transfer identity
-
-    SPI.transfer(msg.buf, msg.len);
-
-    SPI.transfer(msg.len);
-    SPI.transfer(msg.id);
-
-    SPI.endTransaction();
-
-    digitalWrite(CHIPSELECT, HIGH);
-
+  
 }
 

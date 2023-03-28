@@ -15,7 +15,7 @@
 // ---------------------------------------------------
 // Input pins for the uno
 
-int tempPins[] = {PC0, PC1, PC2, PC3};
+int tempPins[] = {PF7, PF6, PF5, PF4};
 
 
 
@@ -38,10 +38,10 @@ void TempSensor::updateTemp()
 // ----------------------------------------------------
 // Returns the temperture of a channel (A B C D)
 
-uint8_t TempSensor::getTemp(int channel)
+uint8_t *TempSensor::getTemp()
 {
 
-    return this->tempSensor.temp[channel];
+    return this->tempSensor.temp;
 
 }
 
@@ -54,14 +54,14 @@ void TempSensor::AvgTemp()
 
     uint8_t averageTemperature = 0;
 
-   for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
-   {
+    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
+    {
 
-        this->tempSensor.temp[CHANNEL] += averageTemperature;
+        averageTemperature += this->tempSensor.temp[CHANNEL];
 
-   }
+    }
 
-   this->tempSensor.avgTemp = this->tempSensor.avgTemp / CHANNELS;
+    this->tempSensor.avgTemp = averageTemperature / CHANNELS;
 
 }
 
@@ -73,6 +73,34 @@ uint8_t TempSensor::getAvgTemp()
 {
 
     return this->tempSensor.avgTemp;
+
+}
+
+
+
+uint8_t TempSensor::getMinTemp()
+{
+
+    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
+    {
+
+
+
+    } 
+
+}
+
+
+
+uint8_t TempSensor::getMaxTemp()
+{
+
+    for (int CHANNEL = 0; CHANNEL < CHANNELS; CHANNEL++)
+    {
+
+        
+
+    } 
 
 }
 
